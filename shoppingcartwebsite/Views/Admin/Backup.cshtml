@@ -1,0 +1,89 @@
+﻿@model List<String>
+
+@{
+    Layout = "_LayoutAdmin";
+}
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".btn-dump").on("click", function () {
+                var url = '@Url.Action("Dump", "Admin")';
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success:
+                        function () {
+                            location.reload();
+                        }
+                });
+            });
+        });
+        $(document).ready(function () {
+            $(".btn-export").on("click", function () {
+                var url = '@Url.Action("ExportData", "Admin")';
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success:
+                        function () {
+                            location.reload();
+                        }
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            $(".btn-restore").on("click", function () {
+                var name = $(this).attr("file-name");
+                var url = '@Url.Action("Restore", "Admin")' + '/?name=' + name;
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success:
+                        function () {
+                            location.reload();
+                        }
+                });
+            });
+        });
+    </script>
+}
+
+
+<div>
+    <table>
+        <tr>
+            <td>
+                <a href="javascript:void(0)" class="btn btn-light btn-dump">
+                    Сгрузить
+                </a>
+            </td>
+            <td>
+                <a href="javascript:void(0)" class="btn btn-light btn-export">
+                    Экспорт данных
+                </a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+
+@foreach (var value in Model)
+{
+    <div class="panel-light" style="width: auto;height: auto; margin-top: 80px; margin-bottom: 50px; margin-right: 50px">
+        <div class="card" style="border-radius: 25px; margin-top: 30px">
+            <div style="margin: 20px">
+                <h2>@value</h2>
+            </div>
+
+            <div class="card-body">
+                <a href="javascript:void(0)" file-name="@value" class="btn btn-light btn-restore">
+                    Восстановить
+                </a>
+            </div>
+        </div>
+    </div>
+}

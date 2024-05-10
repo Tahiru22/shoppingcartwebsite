@@ -1,0 +1,144 @@
+﻿@model shoppingcartwebsite.ViewModels.IndexViewModel
+
+@{
+	ViewData["Title"] = "Product Page";
+	Layout = "_LayoutAdmin";
+}
+
+@section Scripts{
+	<script>
+		$(document).ready(function () {
+			$(".btn-favorite").on("click", function () {
+				var id = $(this).attr("data-product-id");
+				var url = '@Url.Action("UpdateFavoriteProduct", "Account")' + '/' + id;
+				$.ajax({
+					type: 'GET',
+					url: url,
+					contentType: false,
+					processData: false,
+					cache: false,
+					success: function (response) {
+						const elem = document.getElementById('link-favorite-' + id);
+						const classAttr = elem.getAttribute('class');
+
+						if (classAttr === 'btn btn-light btn-favorite') {
+							elem.setAttribute("class", "btn btn-danger btn-favorite");
+						} else {
+							elem.setAttribute("class", "btn btn-light btn-favorite");
+						}
+					}
+				});
+			});
+		});
+	</script>
+}
+
+@{
+	int groupingCategories = 3;
+	var groupedCategories = Model.Categories
+	.Select((x, i) =>
+	new
+	{
+		x,
+		i = i / groupingCategories
+	})
+	.GroupBy(x => x.i, x => x.x);
+}
+
+
+
+@{
+	int groupingsNewProducts = 3;
+	var groupedNewProducts = Model.NewProducts
+	.Select((x, i) =>
+	new
+	{
+		x,
+		i = i / groupingsNewProducts
+	})
+	.GroupBy(x => x.i, x => x.x);
+}
+
+<!-- SECTION -->
+<div class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+			<!-- Product main img -->
+			@foreach (var items in groupedNewProducts)
+			{
+
+				@foreach (var item in items)
+				{
+			<div class="col-md-5 col-md-push-2">
+				<div id="product-main-img">
+					<div class="product-preview">
+						<img src="@item.PathToImage" alt="">
+					</div>
+
+					
+				</div>
+			</div>
+				}
+			}
+			<!-- /Product main img -->
+		
+			<!-- Product details -->
+				@foreach (var items in groupedNewProducts)
+				{
+
+				@foreach (var item in items)
+				{
+			<div class="col-md-5">
+				<div class="product-details">
+					<h2 class="product-name">@item.Name</h2>
+					
+					<div>
+								@{
+									if (item.Discount == 0)
+									{
+										<h4 class="product-price">
+											@item.Price
+										</h4>
+									}
+									else
+									{
+										<h4 class="product-price">
+											@(item.Price * (100 - item.Discount) / 100)
+											<del class="product-old-price">@item.Price</del>
+										</h4>
+
+									}
+								}
+						<span class="product-available">In Stock</span>
+					</div>
+					<p>@item.Description</p>
+
+					
+
+					<div class="add-to-cart">
+						
+					<a asp-area="" asp-route-id="@item.Id" asp-controller="Basket" asp-action="AddProductInBasket">
+									<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+					</a>
+					</div>
+
+					<ul class="product-btns">
+					<li><a id="link-favorite-@item.Id" href="javascript:void(0)" data-product-id="@item.Id"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
+						
+					</ul>
+
+					<ul class="product-links">
+						<li>Category: @item.Category.Name</li>
+						
+					</ul>
+
+				
+
+				</div>
+			</div>
+			  }
+			}
+			<!-- /Product details -->
+			

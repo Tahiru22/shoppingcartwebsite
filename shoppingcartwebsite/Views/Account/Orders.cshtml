@@ -1,0 +1,65 @@
+﻿@model Client
+
+@{
+    Layout = "_Layout";
+}
+
+
+<div class="container text-center" style="margin-bottom: 50px">
+    <h3 class="personal-data__data-title" style="margin-top: 50px; margin-bottom: 50px">Your orders</h3>
+       <h5 class="personal-data__data-title" style="margin-top: 50px; margin-bottom: 50px">Login Frequently to see your order status.</h5>
+    @{
+        if (Model.Orders?.Count > 0)
+        {
+            foreach (var order in Model.Orders)
+            {
+                <div class="panel-light" style="height: auto;">
+                    <div class="card" style="border-radius: 25px; margin-top: 30px">
+                        <div class="row" style="padding-top: 30px; padding-left: 30px;padding-right: 30px">
+                            <div class="col-6">
+                                <h3 class="personal-data__data-title">
+                                    Date: @order.DateTime
+                                </h3>
+                                <h3 class="personal-data__data-title">
+                                  Status:  @order.OrderStatus
+                                </h3>
+
+                            </div>
+
+                            <div class="col">
+                                <div class="right">
+                                    <h3 class="personal-data__data-title">
+                                        Ghc @order.Price .00
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            @{
+                                foreach (var item in order.Products)
+                                {
+                                    <h5 class="card-title">x @item.Amount</h5>
+                                    <img src="@item.Product?.PathToImage" height="300" width="300" alt="..." style="padding: 30px">
+
+                                    <h5 class="card-title">@item.Product?.Name</h5>
+                                    <p class="card-text">@item.Product?.Description</p>
+
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <h5 class="personal-data__data-title" style="margin-top: 40px; margin-left: 15px">You have no orders</h5>
+            <a class="nav-link text-light" asp-area="" asp-controller="Basket" asp-action="Basket">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                   Go to basket
+                </button>
+            </a>
+        }
+    }
+</div>

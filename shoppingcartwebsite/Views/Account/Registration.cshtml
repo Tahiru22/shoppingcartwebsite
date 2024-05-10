@@ -1,0 +1,88 @@
+﻿@model shoppingcartwebsite.ViewModels.RegistrationViewModel
+
+
+@{
+    Layout = "_Layout";
+}
+
+
+
+
+<style>
+
+   /* .section {
+       
+        position: absolute;
+       
+        left: 50%;
+        margin-right: -50%;
+       
+    }*/
+    .card {
+        max-width: 500px;
+        width: 100%;
+    }
+
+</style>
+
+<div class="section">
+    <div class="container-fluid col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Register</h5>
+                <form asp-action="Registration" asp-controller="Account" asp-antiforgery="true">
+                    <div class="form-group">
+                        <label for="FirstName">First Name</label>
+                        <input type="text" asp-for="FirstName" class="form-control" placeholder="First Name">
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="SecondName">Second Name</label>
+                        <input type="text" asp-for="SecondName" class="form-control"  placeholder="Second Name">
+                       
+                    </div>
+
+                    <div class="form-group">
+                        <label for="LastName">Last Name</label>
+                        <input type="text" asp-for="LastName" class="form-control" placeholder="Last Name">
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                   
+                    
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="email" asp-for="Email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Phone Number</label>
+                        <input type="text" asp-for="PhoneNumber" class="form-control" id="phone"  placeholder="Phone Number">
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" asp-for="Password" class="form-control" id="password" placeholder="Password">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                      <div class="form-group">
+                        <label for="password">Confirm Password</label>
+                        <input type="password" asp-for="ConfirmPassword" class="form-control" id="password" placeholder="Confirm Password">
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                </form>
+              
+                <div class="mt-3 text-center">
+                    Have an account? <a asp-action="Authorization" asp-controller="Account">Login</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+            </script>
+}

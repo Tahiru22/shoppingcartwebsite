@@ -1,0 +1,76 @@
+﻿@model shoppingcartwebsite.Models.Product
+
+@{
+    ViewData["Title"] = "Product Page";
+    Layout = "_LayoutAdmin";
+}
+
+<form asp-action="Edit" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Discount"></label>
+                <input asp-for="Discount" class="form-control" />
+                <span asp-validation-for="Discount" class="text-danger"></span>
+            </div>
+
+            
+
+            <!-- Other input fields for product properties -->
+
+            <div class="form-group">
+                <label asp-for="CategoryId"></label>
+                <select asp-for="CategoryId" class="form-control" asp-items="@((SelectList)ViewBag.Categories)">
+                    <option value="">Select Category</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <!-- Image preview -->
+            <div class="form-group">
+                <label asp-for="PathToImage"></label>
+                <input asp-for="PathToImage" type="file" name="imageFile" class="form-control-file" onchange="previewImage(event)" />
+                <span asp-validation-for="PathToImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <img id="imagePreview" src="@Url.Content(Model.PathToImage)" alt="Preview" style="max-width: 100%;" />
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+@section Scripts {
+    <script>
+        function previewImage(event) {
+            var image = document.getElementById('imagePreview');
+            image.src = URL.createObjectURL(event.target.files[0]);
+            image.style.display = 'block';
+        }
+    </script>
+}

@@ -1,0 +1,304 @@
+﻿@model Client
+
+@{
+    Layout = "_Layout";
+}
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            $(".btn-increment").on("click", function () {
+                var id = $(this).attr("data-product-id"); // id изменяемого продукта
+                var priceWithDiscount = Number($(this).attr("data-product-price-discount")); //цена продукта с учетом скидки за 1 шт
+                var priceWithoutDiscount = Number($(this).attr("data-product-price")); //цена продукта за 1 шт
+
+                const Amount = document.getElementById('amount-' + id); // Элемент количества товаров
+
+                const SumWithoutDiscountId = document.getElementById('sum-price-without-discount-' + id); //Элемент суммы без скидки для товара
+                const SumWithoutDiscount = document.getElementById('sum-price-without-discount'); // Элемент суммы без скидки для всех товаров
+
+                const SumWithDiscountId = document.getElementById('sum-price-' + id); // Элемент суммы цены/количества с учетом скидки для товара
+                const SumWithDiscount = document.getElementById('sum-price'); // Элемент суммы цены/количества с учетом скидки для всех товаров
+
+                const SumDiscount = document.getElementById('sum-discount');
+
+                var sumWithDiscount = Number(SumWithDiscount.getAttribute('data-sum')); // сумма цены/количества с учетом скидки для всех товаров
+                var sumWithoutDiscount = Number(SumWithoutDiscount.getAttribute('data-sum')); // сумма без скидки для всех товаров
+                var sumDiscount = Number(SumDiscount.getAttribute('data-sum'));
+
+                var amount = Number(Amount.getAttribute('value'));
+                var max = Number(Amount.getAttribute('max'));
+
+                if (max > amount) {
+                    amount++;
+
+                    sumWithDiscount += priceWithDiscount;
+                    sumWithoutDiscount += priceWithoutDiscount;
+                    sumDiscount -= (priceWithDiscount - priceWithoutDiscount);
+
+                    Amount.setAttribute('value', amount);
+                    SumWithDiscountId.innerText = 'Ghc ' + (amount * priceWithDiscount).toString() + ',00';
+
+                    if (priceWithDiscount !== priceWithoutDiscount) {
+                        SumWithoutDiscountId.innerText = 'Ghc ' + (amount * priceWithoutDiscount) + ',00';
+                    }
+                        
+                    
+
+                    SumWithDiscount.setAttribute('data-sum', sumWithDiscount);
+                    SumWithDiscount.innerText = 'Ghc ' + sumWithDiscount.toString() + ',00';
+
+                    SumWithoutDiscount.setAttribute('data-sum', sumWithoutDiscount);
+                    SumWithoutDiscount.innerText = 'Ghc ' + sumWithoutDiscount.toString() + ',00';
+
+                    SumDiscount.setAttribute('data-sum', sumDiscount);
+                    SumDiscount.innerText = 'Ghc ' + sumDiscount.toString() + ',00';
+
+                    var url = '@Url.Action("UpdateProductAmount", "Basket")' + '?id=' + id + '&amount=' + amount;
+                    $.ajax({
+                        type: 'GET',
+                        url: url,
+                    });
+                }
+            });
+
+            $(".btn-decrement").on("click", function () {
+                var id = $(this).attr("data-product-id"); // id изменяемого продукта
+                var priceWithDiscount = Number($(this).attr("data-product-price-discount")); //цена продукта с учетом скидки за 1 шт
+                var priceWithoutDiscount = Number($(this).attr("data-product-price")); //цена продукта за 1 шт
+
+                const Amount = document.getElementById('amount-' + id); // Элемент количества товаров
+
+                const SumWithoutDiscountId = document.getElementById('sum-price-without-discount-' + id); //Элемент суммы без скидки для товара
+                const SumWithoutDiscount = document.getElementById('sum-price-without-discount'); // Элемент суммы без скидки для всех товаров
+
+                const SumWithDiscountId = document.getElementById('sum-price-' + id); // Элемент суммы цены/количества с учетом скидки для товара
+                const SumWithDiscount = document.getElementById('sum-price'); // Элемент суммы цены/количества с учетом скидки для всех товаров
+
+                const SumDiscount = document.getElementById('sum-discount');
+
+                var sumWithDiscount = Number(SumWithDiscount.getAttribute('data-sum')); // сумма цены/количества с учетом скидки для всех товаров
+                var sumWithoutDiscount = Number(SumWithoutDiscount.getAttribute('data-sum')); // сумма без скидки для всех товаров
+                var sumDiscount = Number(SumDiscount.getAttribute('data-sum'));
+
+                var amount = Number(Amount.getAttribute('value'));
+                var min = Number(Amount.getAttribute('min'));
+
+
+                if (amount > min) {
+                    amount--;
+
+                    sumWithDiscount -= priceWithDiscount;
+                    sumWithoutDiscount -= priceWithoutDiscount;
+                    sumDiscount += (priceWithDiscount - priceWithoutDiscount);
+
+                    Amount.setAttribute('value', amount);
+                    SumWithDiscountId.innerText = 'Ghc ' + (amount * priceWithDiscount).toString() + ',00';
+
+                    if (priceWithDiscount !== priceWithoutDiscount) {
+                        SumWithoutDiscountId.innerText = 'Ghc ' + (amount * priceWithoutDiscount) + ',00';
+                    }
+
+                    SumWithDiscount.setAttribute('data-sum', sumWithDiscount);
+                    SumWithDiscount.innerText = 'Ghc ' + sumWithDiscount.toString() + ',00';
+
+                    SumWithoutDiscount.setAttribute('data-sum', sumWithoutDiscount);
+                    SumWithoutDiscount.innerText = 'Ghc ' + sumWithoutDiscount.toString() + ',00';
+
+                    SumDiscount.setAttribute('data-sum', sumDiscount);
+                    SumDiscount.innerText = 'Ghc ' + sumDiscount.toString() + ',00';
+
+                    var url = '@Url.Action("UpdateProductAmount", "Basket")' + '?id=' + id + '&amount=' + amount;
+                    $.ajax({
+                        type: 'GET',
+                        url: url,
+                    });
+                }
+            });
+
+        });
+    </script>
+}
+
+<style>
+    .body-container {
+        /*remove the container default padding attribute*/
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        /*increase width as per your need*/
+        max-width: 100%;
+    }
+</style>
+
+<div class="container-fluid full-width shade">
+    @{
+        var sumWithoutDiscount = Model.Basket.Select(x => x.Amount * x.Product?.Price).Sum();
+        var sumWithDiscount = Model.Basket.Select(x => x.Amount * x.Product?.Price * (100 - x.Product?.Discount) / 100).Sum();
+        var sumDiscount = sumWithoutDiscount - sumWithDiscount;
+    }
+
+    <div class="row justify-content-center" style="margin-bottom: 100px">
+        <div class="col-lg-8 col-md-10 col-sm-12">
+            <h2 class="personal-data__data-title mb-4">Корзина</h2>
+            @{
+                if (Model.Basket.Count > 0)
+                {
+                    foreach (var productBasket in Model.Basket)
+                    {
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <img src="@productBasket.Product?.PathToImage" class="img-fluid" alt="...">
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <div class="right">
+                                            @{
+                                                if (productBasket.Product?.Discount == 0)
+                                                {
+                                                    <h3 id="sum-price-@productBasket.Id" class="personal-data__data-title mb-3">
+                                                        Ghc @(productBasket.Product?.Price * (100 - productBasket.Product?.Discount) / 100 * productBasket.Amount),00
+                                                    </h3>
+                                                }
+                                                else
+                                                {
+                                                    <h3 id="sum-price-@productBasket.Id" class="personal-data__data-title mb-3">
+                                                        Ghc @(productBasket.Product?.Price * (100 - productBasket.Product?.Discount) / 100 * productBasket.Amount),00
+                                                    </h3>
+
+                                                    <p class="text-muted mb-2" id="sum-price-without-discount-@productBasket.Id">
+                                                        Ghc @(productBasket.Product?.Price * productBasket.Amount),00
+                                                    </p>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    @if (productBasket.Product?.Discount != 0)
+                                    {
+                                        <span class="badge badge-success">Скидка @productBasket.Product?.Discount%</span>
+                                    }
+
+                                    <h5 class="card-title">@productBasket.Product?.Name</h5>
+                                    <p class="card-text">@productBasket.Product?.Description</p>
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <a asp-area="" asp-route-id="@productBasket.Id" asp-controller="Basket" asp-action="RemoveProductInBasket">
+                                                <button class="btn btn-danger" type="submit">
+                                                    Remove from favourite
+                                                </button>
+                                            </a>
+                                        </div>
+                                        <div class="col">
+                                            <div class="right">
+                                                <div class="btn-group" role="group" aria-label="Quantity control">
+
+                                                    <button type="button"
+                                                            data-product-id="@productBasket.Id"
+                                                            data-product-price="@productBasket.Product?.Price"
+                                                            data-product-price-discount="@(productBasket.Product?.Price * (100 - productBasket.Product?.Discount) / 100)"
+                                                            class="btn btn-secondary btn-increment">
+                                                        +
+                                                    </button>
+
+                                                    <input readonly
+                                                           id="amount-@productBasket.Id"
+                                                           type="number" step="1" min="1" max="@productBasket.Product?.Amount" value="@productBasket.Amount"
+                                                           style="width: 60px; height: 40px;"
+                                                           name="quantity"
+                                                           class="quantity-field border-0 text-center">
+
+                                                    <button type="button"
+                                                            data-product-id="@productBasket.Id"
+                                                            data-product-price="@productBasket.Product?.Price"
+                                                            data-product-price-discount="@(productBasket.Product?.Price * (100 - productBasket.Product?.Discount) / 100)"
+                                                            class="btn btn-secondary btn-decrement">
+                                                        -
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <h5 class="personal-data__data-title mb-4">Home</h5>
+                    <a class="btn btn-outline-success" asp-area="" asp-controller="Home" asp-action="Index">
+                        Home
+                    </a>
+                }
+            }
+        </div>
+    </div>
+
+    <!-- Missing Section -->
+    <div class="col">
+        <div class="container">
+            <div class="panel-light" style="width: auto;height: auto; margin-top: 20px; margin-bottom: 50px; margin-right: 50px">
+                <div class="card text" style="border-radius: 10px">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <div class="row">
+                                <div class="col">
+                                    <h3>
+                                        Sum after disc.
+                                    </h3>
+                                </div>
+                                <div class="col">
+                                    <div class="right">
+                                        <h3 id="sum-price" data-sum="@sumWithDiscount" class="personal-data__data-title">
+                                            Ghc @sumWithDiscount,00
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </h5>
+
+                        <p class="card-text">
+                            <div class="row">
+                                <div class="col">
+                                    <h3>
+                                        <h5 style="color: #6e6e6e">Sum before disc.: @Model.Basket.Select(x => x.Amount).Sum().</h5>
+                                    </h3>
+                                </div>
+                                <div class="col">
+                                    <div class="right">
+                                        <h5 id="sum-price-without-discount" data-sum="@sumWithoutDiscount" style="color: #6e6e6e">Ghc @sumWithoutDiscount,00</h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <h3>
+                                        <h5 style="color: #6e6e6e">Discount:</h5>
+                                    </h3>
+                                </div>
+                                <div class="col">
+                                    <div class="right">
+                                        <h5 id="sum-discount" data-sum="@sumDiscount" style="color: #6e6e6e;text-decoration: line-through">Ghc @sumDiscount,00</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </p>
+
+                        <a class="nav-link text-light" asp-area="" asp-controller="Order" asp-action="PayOrder">
+                            <button class="btn btn-primary" type="submit">
+                                Order
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

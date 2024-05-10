@@ -1,0 +1,237 @@
+﻿@model shoppingcartwebsite.ViewModels.ProductsViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".btn-favorite").on("click", function () {
+                var id = $(this).attr("data-product-id");
+                var url = '@Url.Action("UpdateFavoriteProduct", "Account")' + '/' + id;
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    success: function (response) {
+                        const elem = document.getElementById('link-favorite-' + id);
+                        const classAttr = elem.getAttribute('class');
+
+                        if (classAttr === 'btn btn-light btn-favorite') {
+                            elem.setAttribute("class", "btn btn-danger btn-favorite");
+                        } else {
+                            elem.setAttribute("class", "btn btn-light btn-favorite");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+@{
+	int groupingsNewProducts = 3;
+	var groupedNewProducts = Model.Products
+			.Select((x, i) =>
+		new
+		{
+			x,
+			i = i / groupingsNewProducts
+		})
+			.GroupBy(x => x.i, x => x.x);
+}
+
+@{
+	int groupingCategories = 3;
+	var groupedCategories = Model.Categories
+	.Select((x, i) =>
+	new
+	{
+		x,
+		i = i / groupingCategories
+	})
+	.GroupBy(x => x.i, x => x.x);
+}
+
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<!-- ASIDE -->
+					<div id="aside" class="col-md-3">
+						<!-- aside Widget -->
+		
+						<div class="aside">
+							<h3 class="aside-title">Categories</h3>
+							<div class="checkbox-filter">
+
+						@foreach (var items in groupedCategories)
+						{
+							@foreach (var item in items)
+							{
+								<div class="input-checkbox">
+									<input type="checkbox" id="category-5">
+									<label for="category-5">
+										<span></span>
+										<a asp-route-idCategory="@item.Id" asp-controller="Home" asp-action="Products">@item.Name</a>
+										
+										<small>(@item.Products.Count)</small>
+									</label>
+								</div>
+							}
+						}
+							</div>
+						</div>
+				
+			
+						<!-- /aside Widget -->
+
+						
+
+						
+					</div>
+					<!-- /ASIDE -->
+
+					<!-- STORE -->
+					<div id="store" class="col-md-9">
+						<!-- store top filter -->
+						<div class="store-filter clearfix">
+							<div class="store-sort">
+								<label>
+									Sort By:
+									<select class="input-select">
+										<option value="0">Popular</option>
+										<option value="1">Position</option>
+									</select>
+								</label>
+
+								<label>
+									Show:
+									<select class="input-select">
+										<option value="0">20</option>
+										<option value="1">50</option>
+									</select>
+								</label>
+							</div>
+							<ul class="store-grid">
+								<li class="active"><i class="fa fa-th"></i></li>
+								<li><a href="#"><i class="fa fa-th-list"></i></a></li>
+							</ul>
+						</div>
+						<!-- /store top filter -->
+
+						<!-- store products -->
+						<div class="row">
+							<!-- product -->
+							@foreach (var items in groupedNewProducts)
+                           {
+   
+                           @foreach (var item in items)
+                            {
+							<div class="col-md-4 col-xs-6">
+								<div class="product">
+									<div class="product-img">
+										<img src="@item.PathToImage" alt="">
+										@{
+											if (item.Discount > 0)
+											{
+												<div class="product-label">
+													<span class="sale">- @item.Discount %</span>
+
+												</div>
+											}
+
+										}
+									</div>
+									<div class="product-body">
+										<h3 class="product-name"><a href="#">@item.Name</a></h3>
+										@{
+											if (item.Discount == 0)
+											{
+												<h4 class="product-price">
+													@item.Price
+												</h4>
+											}
+											else
+											{
+												<h4 class="product-price">
+													@(item.Price * (100 - item.Discount) / 100)
+													<del class="product-old-price">@item.Price</del>
+												</h4>
+
+											}
+										}
+
+										@{
+											if (Model.Client != null)
+											{
+												<div class="product-btns">
+													@{
+														var product = Model.Client?.FavoriteProducts.FirstOrDefault(x => x.Id == item.Id);
+														if (product == null)
+														{
+															<a asp-action="Details" class="quick-view" asp-controller="Product" asp-route-id="@item.Id"><i class="fa fa-eye"></i></a>
+							
+															<a id="link-favorite-@item.Id" href="javascript:void(0)" data-product-id="@item.Id" class="btn btn-light btn-favorite">
+																♥
+															</a>
+														}
+														else
+														{
+															<button class="add-to-wishlist" id="link-favorite-@item.Id" href="javascript:void(0)" data-product-id="@item.Id"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+														}
+													}
+												</div>
+											}
+											else
+											{
+												<div class="product-btns">
+
+													<a asp-action="Details" class="quick-view" asp-controller="Product" asp-route-id="@item.Id"><i class="fa fa-eye"></i></a>
+
+
+													<a asp-action="Authorization" asp-controller="Account" class="add-to-wishlist">
+														<i class="fa fa-heart-o"></i>
+													</a>
+												</div>
+											}
+										}
+									</div>
+
+									<div class="add-to-cart">
+										<a asp-area="" asp-route-id="@item.Id" asp-controller="Basket" asp-action="AddProductInBasket">
+											<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+										</a>
+
+									</div>
+								</div>
+							</div>
+							}
+							}
+							<!-- /product -->
+
+
+							
+
+							<div class="clearfix visible-sm visible-xs"></div>
+
+							
+						</div>
+						<!-- /store products -->
+
+						
+						<!-- /store bottom filter -->
+					</div>
+					<!-- /STORE -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->

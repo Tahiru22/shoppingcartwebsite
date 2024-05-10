@@ -1,0 +1,45 @@
+﻿@model IEnumerable<shoppingcartwebsite.Models.Product>
+@{
+	ViewData["Title"] = "Product Page";
+	Layout = "_LayoutAdmin";
+}
+<br />
+<br />
+<div class="container">
+    <a href="@Url.Action("Create")" class="btn btn-success">Create New Product</a>
+    <br />
+    <table class="table">
+   
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Image</th>
+                <!-- Add other columns as needed -->
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Description</td>
+                    <td>@product.Category.Name</td>
+                    <td>
+                        <img src="@Url.Content(product.PathToImage)" alt="Product Image" style="max-width: 100px;" />
+                    </td>
+                    <!-- Add other columns as needed -->
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-primary">Edit</a>
+                        <form asp-action="Delete" asp-route-id="@product.Id" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

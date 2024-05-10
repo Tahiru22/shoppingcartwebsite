@@ -1,0 +1,134 @@
+﻿@model IEnumerable<User>
+
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<div class="container">
+    <h2>Users</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Second Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.FirstName</td>
+                    <td>@user.SecondName</td>
+                    <td>@user.LastName</td>
+                    <td>@user.Email</td>
+                    <td>@user.PhoneNumber</td>
+                    <td>
+                        @if (!user.LockoutEnabled)
+                        {
+                            <a class="btn btn-primary" data-toggle="modal" data-target="#confirmBlockModal" data-user-id="@user.Id">Block</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-warning" data-toggle="modal" data-target="#confirmUnblockModal" data-user-id="@user.Id">Unblock</a>
+                        }
+                    </td>
+                    <td>
+                        <form asp-action="DeleteUser" asp-route-userId="@user.Id" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Confirm Block Modal -->
+<div class="modal fade" id="confirmBlockModal" tabindex="-1" role="dialog" aria-labelledby="blockModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="blockModalLabel">Confirm Block</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to block this user?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form asp-action="BlockUser" method="post">
+                    <input type="hidden" name="userId" />
+                    <button type="submit" class="btn btn-danger">Block</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confirm Delete Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="blockModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="blockModalLabel">Confirm Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this user?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form asp-action="DeleteUser" asp-controller="Admin" method="post">
+                    <input type="hidden" name="userId" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Confirm Unblock Modal -->
+<div class="modal fade" id="confirmUnblockModal" tabindex="-1" role="dialog" aria-labelledby="unblockModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="unblockModalLabel">Confirm Unblock</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to unblock this user?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form asp-action="UnlockUser" method="post">
+                    <input type="hidden" name="userId" />
+                    <button type="submit" class="btn btn-success">Unblock</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#confirmBlockModal, #confirmUnblockModal, #confirmDeleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var userId = button.data('user-id'); // Extract info from data-* attributes
+            var modal = $(this);
+            modal.find('input[name="userId"]').val(userId);
+        });
+    });
+
+</script>

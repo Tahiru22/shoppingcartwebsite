@@ -1,0 +1,178 @@
+﻿@model Client
+
+@{
+    Layout = "_Layout";
+}
+
+<style>
+ /* Custom styles */
+.panel {
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+    border-radius: 10px;
+    border: none;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.card-text {
+    color: #6c757d;
+}
+
+.badge {
+    font-size: 0.8rem;
+}
+
+.btn {
+    border-radius: 5px;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+.btn-group .btn {
+    margin-right: 5px;
+}
+
+</style>
+
+<div class="container text-center">
+    <div class="panel">
+        <div class="container">
+            <div class="margin-top-40">
+                <div class="row">
+                    <div class="col">
+                        <h3 class="personal-data__data-title">Full Name
+                            <p class="personal-data__data"> @Model.User.FirstName @Model.User.SecondName @Model.User.LastName</p>
+                        </h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h3 class="personal-data__data-title">Email</h3>
+                        <p class="personal-data__data">@Model.User.Email</p>
+                    </div>
+                    <div class="col">
+                        <h3 class="personal-data__data-title">Phone Number</h3>
+                        <p class="personal-data__data">@Model.User.PhoneNumber</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="personal-data__data-title" style="margin-top: 50px; margin-bottom: 50px">Welcome</h3>
+    @{
+        if (Model.FavoriteProducts.Count > 0)
+        {
+            foreach (var product in Model.FavoriteProducts)
+            {
+                            <div class="card" style="border-radius: 10px; margin-top: 30px">
+                    @if (product.Discount > 0)
+                    {
+                        <span class="badge badge-success" style="width: 100px; height: 20px; margin: 15px;">Discount @product.Discount%</span>
+                    }
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img src="@product.PathToImage" class="card-img-top img-fluid" alt="Product Image">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="right">
+                                
+                                @{
+                                    if (product.Discount == null)
+                                    {
+                                        <h3 class="personal-data__data-title" style="padding-top: 30px; padding-right: 30px">
+                                             Ghc @product.Price
+                                        </h3>
+                                    }
+                                    else
+                                    {
+                                                            <h3 class="personal-data__data-title" style="padding-top: 30px; padding-right: 30px">
+                                                                Ghc @(product.Price * (100 - product.Discount) / 100)
+                                                            </h3>
+                                                            <p class="personal-data__data-title"
+                                                               style="padding-top: 30px;
+                                                       margin-top: -20px;
+                                                       padding-right: 30px; font-size: 16px;
+                                                       color: #a1a1a1;text-decoration: line-through">
+                                                                Ghc @product.Price
+                                                            </p>
+                                    }
+                                }
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <h5 class="card-title">@product.Name</h5>
+                                    <p class="card-text">@product.Description</p>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <a asp-area="" asp-route-id="@product.Id" asp-controller="Account" asp-action="UpdateFavoriteProduct">
+                                                <button class="btn btn-danger" type="submit">
+                                                    Remove Favourite
+                                                </button>
+                                            </a>
+                                        </div>
+                                        <div class="col">
+                                            <a asp-area="" asp-route-id="@product.Id" asp-controller="Basket" asp-action="AddProductInBasket">
+                                                <button class="btn btn-primary" type="submit">
+                                                    Add to Cart
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+            }
+        }
+        else
+        {
+                    <h5 class="personal-data__data-title" style="margin-top: 40px; margin-left: 15px">Your Favourites</h5>
+                    <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                            Products
+                        </button>
+                    </a>
+        }
+    }
+</div>
+
