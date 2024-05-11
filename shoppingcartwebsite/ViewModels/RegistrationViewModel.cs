@@ -7,7 +7,6 @@ namespace shoppingcartwebsite.ViewModels
         [Required(ErrorMessage = "First name not specified")]
         public string FirstName { get; set; }
         
-        public string? SecondName { get; set; }
 
         [Required(ErrorMessage = "Last name not specified")]
         public string LastName { get; set; }

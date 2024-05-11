@@ -84,64 +84,21 @@ namespace shoppingcartwebsite.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return NotFound(); // User not found
+                return NotFound(); 
             }
 
             var result = await _userManager.DeleteAsync(user);
             if (result.Succeeded)
             {
-                // User deleted successfully
-                return RedirectToAction("GetAllUsers"); // Redirect to a suitable page
+                
+                return RedirectToAction("GetAllUsers"); 
             }
             else
             {
-                // Handle errors
-                return View("Error"); // Show error view
+                
+                return View("Error"); 
             }
         }
-
-        //[HttpPost]
-        //public async Task<IActionResult> DeleteUser(string userId)
-        //{
-        //    var userGuid = new Guid(userId);
-        //    var user = await _userManager.FindByIdAsync(userId);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    // Fetch the Client associated with the User
-        //    var client = await _context.Clients
-        //        .Include(c => c.Orders)
-        //            .ThenInclude(o => o.Products)
-        //        .FirstOrDefaultAsync(c => c.User.Id == userGuid);
-
-        //    if (client != null)
-        //    {
-        //        // Handle related Orders and Products
-        //        foreach (var order in client.Orders)
-        //        {
-        //            _context.Orders.Remove(order);
-        //        }
-
-        //        // After handling related entities, delete the Client
-        //        _context.Clients.Remove(client);
-        //    }
-
-        //    // Delete the User
-        //    var result = await _userManager.DeleteAsync(user);
-        //    if (result.Succeeded)
-        //    {
-        //        return RedirectToAction("GetAllUsers");
-        //    }
-        //    else
-        //    {
-
-        //        return BadRequest(result.Errors);
-        //    }
-        //}
-
-
 
 
 

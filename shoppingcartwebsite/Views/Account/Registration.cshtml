@@ -10,14 +10,7 @@
 
 <style>
 
-   /* .section {
-       
-        position: absolute;
-       
-        left: 50%;
-        margin-right: -50%;
-       
-    }*/
+
     .card {
         max-width: 500px;
         width: 100%;
@@ -31,17 +24,15 @@
             <div class="card-body">
                 <h5 class="card-title">Register</h5>
                 <form asp-action="Registration" asp-controller="Account" asp-antiforgery="true">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    
                     <div class="form-group">
                         <label for="FirstName">First Name</label>
                         <input type="text" asp-for="FirstName" class="form-control" placeholder="First Name">
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group">
-                        <label for="SecondName">Second Name</label>
-                        <input type="text" asp-for="SecondName" class="form-control"  placeholder="Second Name">
-                       
-                    </div>
+                   
 
                     <div class="form-group">
                         <label for="LastName">Last Name</label>
@@ -82,7 +73,7 @@
     </div>
 </div>
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-
-            </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

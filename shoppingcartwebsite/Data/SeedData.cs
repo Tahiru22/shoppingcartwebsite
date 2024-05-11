@@ -12,8 +12,8 @@ namespace shoppingcartwebsite.Data
             // Seed roles
             if (!_db.Roles.Any())
             {
-                await _roleManager.CreateAsync(new ApplicationRole(Roles.Admin));
-                await _roleManager.CreateAsync(new ApplicationRole(Roles.Customer));
+                await _roleManager.CreateAsync(new ApplicationRole("Admin"));
+                await _roleManager.CreateAsync(new ApplicationRole("Customer"));
             
             }
 
@@ -22,7 +22,6 @@ namespace shoppingcartwebsite.Data
                 var admin = new User()
                 {
                     FirstName = "Admin",
-                    SecondName = "Admin",
                     LastName = "Admin",
                     Email = "admin@gmail.com",
                     UserName = "admin@gmail.com",

@@ -10,22 +10,22 @@
         $(document).ready(function () {
 
             $(".btn-increment").on("click", function () {
-                var id = $(this).attr("data-product-id"); // id изменяемого продукта
-                var priceWithDiscount = Number($(this).attr("data-product-price-discount")); //цена продукта с учетом скидки за 1 шт
-                var priceWithoutDiscount = Number($(this).attr("data-product-price")); //цена продукта за 1 шт
+                var id = $(this).attr("data-product-id"); 
+                var priceWithDiscount = Number($(this).attr("data-product-price-discount")); 
+                var priceWithoutDiscount = Number($(this).attr("data-product-price")); 
 
-                const Amount = document.getElementById('amount-' + id); // Элемент количества товаров
+                const Amount = document.getElementById('amount-' + id); 
 
-                const SumWithoutDiscountId = document.getElementById('sum-price-without-discount-' + id); //Элемент суммы без скидки для товара
-                const SumWithoutDiscount = document.getElementById('sum-price-without-discount'); // Элемент суммы без скидки для всех товаров
+                const SumWithoutDiscountId = document.getElementById('sum-price-without-discount-' + id); 
+                const SumWithoutDiscount = document.getElementById('sum-price-without-discount'); 
 
-                const SumWithDiscountId = document.getElementById('sum-price-' + id); // Элемент суммы цены/количества с учетом скидки для товара
-                const SumWithDiscount = document.getElementById('sum-price'); // Элемент суммы цены/количества с учетом скидки для всех товаров
+                const SumWithDiscountId = document.getElementById('sum-price-' + id); 
+                const SumWithDiscount = document.getElementById('sum-price'); 
 
                 const SumDiscount = document.getElementById('sum-discount');
 
-                var sumWithDiscount = Number(SumWithDiscount.getAttribute('data-sum')); // сумма цены/количества с учетом скидки для всех товаров
-                var sumWithoutDiscount = Number(SumWithoutDiscount.getAttribute('data-sum')); // сумма без скидки для всех товаров
+                var sumWithDiscount = Number(SumWithDiscount.getAttribute('data-sum')); 
+                var sumWithoutDiscount = Number(SumWithoutDiscount.getAttribute('data-sum')); 
                 var sumDiscount = Number(SumDiscount.getAttribute('data-sum'));
 
                 var amount = Number(Amount.getAttribute('value'));
@@ -65,22 +65,21 @@
             });
 
             $(".btn-decrement").on("click", function () {
-                var id = $(this).attr("data-product-id"); // id изменяемого продукта
-                var priceWithDiscount = Number($(this).attr("data-product-price-discount")); //цена продукта с учетом скидки за 1 шт
-                var priceWithoutDiscount = Number($(this).attr("data-product-price")); //цена продукта за 1 шт
+                var id = $(this).attr("data-product-id"); 
+                var priceWithDiscount = Number($(this).attr("data-product-price-discount")); 
+                var priceWithoutDiscount = Number($(this).attr("data-product-price")); 
 
-                const Amount = document.getElementById('amount-' + id); // Элемент количества товаров
+                const Amount = document.getElementById('amount-' + id); 
 
-                const SumWithoutDiscountId = document.getElementById('sum-price-without-discount-' + id); //Элемент суммы без скидки для товара
-                const SumWithoutDiscount = document.getElementById('sum-price-without-discount'); // Элемент суммы без скидки для всех товаров
-
-                const SumWithDiscountId = document.getElementById('sum-price-' + id); // Элемент суммы цены/количества с учетом скидки для товара
-                const SumWithDiscount = document.getElementById('sum-price'); // Элемент суммы цены/количества с учетом скидки для всех товаров
+                const SumWithoutDiscountId = document.getElementById('sum-price-without-discount-' + id); 
+                const SumWithoutDiscount = document.getElementById('sum-price-without-discount'); 
+                const SumWithDiscountId = document.getElementById('sum-price-' + id); 
+                const SumWithDiscount = document.getElementById('sum-price'); 
 
                 const SumDiscount = document.getElementById('sum-discount');
 
-                var sumWithDiscount = Number(SumWithDiscount.getAttribute('data-sum')); // сумма цены/количества с учетом скидки для всех товаров
-                var sumWithoutDiscount = Number(SumWithoutDiscount.getAttribute('data-sum')); // сумма без скидки для всех товаров
+                var sumWithDiscount = Number(SumWithDiscount.getAttribute('data-sum')); 
+                var sumWithoutDiscount = Number(SumWithoutDiscount.getAttribute('data-sum')); 
                 var sumDiscount = Number(SumDiscount.getAttribute('data-sum'));
 
                 var amount = Number(Amount.getAttribute('value'));
@@ -141,7 +140,7 @@
 
     <div class="row justify-content-center" style="margin-bottom: 100px">
         <div class="col-lg-8 col-md-10 col-sm-12">
-            <h2 class="personal-data__data-title mb-4">Корзина</h2>
+            <h2 class="personal-data__data-title mb-4">Cart Items</h2>
             @{
                 if (Model.Basket.Count > 0)
                 {

@@ -69,18 +69,21 @@
 					<li><a href="#"><i class="fa fa-map-marker"></i> Kumasi</a></li>
 				</ul>
 				<ul class="header-links pull-right">
-					@if (User.Identity.IsAuthenticated)
+					@if (User.Identity.IsAuthenticated && User.IsInRole("Customer"))
 					{
 						<li><a asp-area="" asp-controller="Account" asp-action="AccountClient"><i class="fa fa-user-o"></i> Account</a></li>
 						<li><a asp-area="" asp-controller="Basket" asp-action="Basket"><i class="fa fa-heart-o"></i> Cart</a></li>
 						<li><a asp-area="" asp-controller="Account" asp-action="Orders"><i class="fa fa-shopping-cart"></i> Orders</a></li>
-						
+					}
+					else if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+					{
+						<li><a asp-area="" asp-controller="Admin" asp-action="Diagrams"><i class="fa fa-user-o"></i> Admin home</a></li>
 					}
 					else
 					{
 						<li><a asp-action="Authorization" asp-controller="Account"><i class="fa fa-user-o"></i> Login</a></li>
 					}
-					
+
 				</ul>
 			</div>
 		</div>

@@ -18,6 +18,7 @@
             <div class="card-body">
                 <h5 class="card-title">Login</h5>
                 <form asp-action="Authorization" asp-controller="Account" asp-antiforgery="true">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label for="email">Email address</label>
                         <input type="email" asp-for="Email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
@@ -31,7 +32,7 @@
                     <button type="submit" class="btn btn-primary btn-block">Login</button>
                 </form>
                 <div class="mt-3 text-center">
-                    <a href="forgot-password.html">Forgot password?</a>
+                    <a asp-action="ForgotPassword" asp-controller="Account">Forgot password?</a>
                 </div>
                 <div class="mt-3 text-center">
                     Don't have an account? <a asp-action="Registration" asp-controller="Account">Register</a>
@@ -42,65 +43,8 @@
     </div>
 </div>
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-
-        </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
-@*
-<style>
-    .input-form .link {
-        color: #F0BC5E;
-        background: none;
-        font-family: 'Arial', sans-serif;
-        margin-top: 10px;
-    }
 
-    .container {
-        margin: 25px;
-        position: relative;
-    }
-
-    .child {
-        width: 400px;
-        position: absolute;
-        top: 30%;
-        left: 50%;
-        margin-top: 50px;
-    }
-
-    .child-child {
-        margin-top: 10px;
-    }
-</style>
-
-<div class="container">
-    <form class="form-signin" asp-action="Authorization" asp-controller="Account" asp-antiforgery="true">
-        <div class="child">
-
-            <div class="child-child">
-                <h1 class="h3 mb-3 font-weight-normal">Login</h1>
-            </div>
-
-            <!-- Email input -->
-            <div class="child-child">
-                <input class="form-control" asp-for="Email" type="email" placeholder="Email" />
-                <span asp-validation-for="Email" />
-            </div>
-
-            <!-- Password input -->
-            <div class="child-child">
-                <input class="form-control" asp-for="Password" type="password" placeholder="Password" />
-                <span asp-validation-for="Password" />
-            </div>
-
-            <div class="child-child">
-                <button class="btn btn-primary btn-lg mt-6" type="submit">Login</button>
-            </div>
-
-            <div class="child-child">
-                <a class="link" asp-action="Registration" asp-controller="Account">Register</a>
-            </div>
-        </div>
-    </form>
-</div>
-*@

@@ -6,6 +6,7 @@ using AutoMapper;
 using shoppingcartwebsite.Service;
 using shoppingcartwebsite.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,13 +30,20 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddScoped<DataUpdateService>();
-//builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
-builder.Services.AddScoped<EmailSender>();
 
+var emailConfig = builder.Configuration.GetSection("EmailConfiguration")
+  .Get<EmailConfiguration>();
+
+builder.Services.AddSingleton(emailConfig);
+builder.Services.AddScoped<IEmailPasswordSender, EmailPasswordSender>();
+
+builder.Services.AddScoped<EmailSender>();
+builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
+   opt.TokenLifespan = TimeSpan.FromHours(2));
 builder.Services.AddSession();
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
-builder.Services.AddSignalR();
+
 
 
 builder.Services.AddIdentity<User, ApplicationRole>(options =>
@@ -74,10 +82,6 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-//app.MapEasyData(options =>
-//{
-//    options.UseDbContext<DatabaseContext>();
-//});
 
 
 // Configure the HTTP request pipeline.
@@ -98,10 +102,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapHub<NotificationHub>("/notificationHub");
-    // Other mappings
-});
 
 app.Run();

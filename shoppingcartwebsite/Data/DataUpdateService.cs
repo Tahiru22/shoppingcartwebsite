@@ -14,14 +14,14 @@ namespace shoppingcartwebsite.Data
         {
             _context.Categorys.AddRange(new Category
             {
-                Name = "POD-системы",
+                Name = "test",
                 PathToImage = @"/img/category/category_pod.jpg",
                 Products = new List<Product>()
             {
                 new()
                 {
                     Amount = 10,
-                    Description = "Тип затяжки: Смешанная Ёмкость аккумулятора: 900",
+                    Description = "test",
                     Name = "Rincoe Jellybox Nano 2 Pod Kit 26W 900mAh",
                     Price = 1990,
                     PathToImage = @"/img/products/Pod/1.jpg",
@@ -39,7 +39,7 @@ namespace shoppingcartwebsite.Data
                 new()
                 {
                     Amount = 10,
-                    Description = "Тип затяжки: Сигаретная Ёмкость аккумулятора: 850",
+                    Description = "test",
                     Name = "Набор Elf Bar Elfa D20 10W 850mAh",
                     Price = 650,
                     PathToImage = @"/img/products/Pod/3.jpg"
@@ -47,7 +47,7 @@ namespace shoppingcartwebsite.Data
                 new()
                 {
                     Amount = 10,
-                    Description = "Тип затяжки: Смешанная Ёмкость аккумулятора: 650",
+                    Description = "test",
                     Name = "Rincoe Jellybox F Pod Kit 15W 650mAh",
                     Price = 1190,
                     PathToImage = @"/img/products/Pod/4.jpg"
@@ -55,7 +55,7 @@ namespace shoppingcartwebsite.Data
                 new()
                 {
                     Amount = 10,
-                    Description = "Тип затяжки: Смешанная Ёмкость аккумулятора: 1000",
+                    Description = "test: 1000",
                     Name = "Smoant Charon Baby Plus Pod Kit",
                     Price = 2290,
                     PathToImage = @"/img/products/Pod/5.jpg",

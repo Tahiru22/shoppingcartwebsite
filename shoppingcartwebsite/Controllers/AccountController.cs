@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using shoppingcartwebsite.Data;
 using shoppingcartwebsite.Models;
+using shoppingcartwebsite.Service;
 using shoppingcartwebsite.ViewModels;
 using System.Security.Claims;
 
@@ -17,10 +18,13 @@ namespace shoppingcartwebsite.Controllers
         //private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        public AccountController(DatabaseContext context, SignInManager<User> signInManager, UserManager<User> userManager)
+        private readonly EmailSender _emailSender;
+        private readonly IEmailPasswordSender _emailPasswordSender;
+        public AccountController(DatabaseContext context, IEmailPasswordSender emailPasswordSender, EmailSender emailSender, SignInManager<User> signInManager, UserManager<User> userManager)
         {
             _context = context;
-          
+            _emailSender = emailSender;
+            _emailPasswordSender = emailPasswordSender;
             _signInManager = signInManager;
             _userManager = userManager;
         }
@@ -109,7 +113,6 @@ namespace shoppingcartwebsite.Controllers
                     UserName = model.Email, // Using email as username
                     Email = model.Email,
                     FirstName = model.FirstName,
-                    SecondName = model.SecondName,
                     LastName = model.LastName,
                     PhoneNumber = model.PhoneNumber
 
@@ -119,7 +122,10 @@ namespace shoppingcartwebsite.Controllers
 
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+					// Add the user to the "Admin" role
+					await _userManager.AddToRoleAsync(user, "Customer");
+
+					await _signInManager.SignInAsync(user, isPersistent: false);
                     await Authenticate(user.Email);
 
                     var client = new Client
@@ -141,6 +147,75 @@ namespace shoppingcartwebsite.Controllers
             return View(model);
         }
 
+//=============================================
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel forgotPasswordModel)
+        {
+            if (!ModelState.IsValid)
+                return View(forgotPasswordModel);
+            var user = await _userManager.FindByEmailAsync(forgotPasswordModel.Email);
+            if (user == null)
+                return RedirectToAction(nameof(ForgotPasswordConfirmation));
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var callback = Url.Action(nameof(ResetPassword), "Account", new { token, email = user.Email }, Request.Scheme);
+            var message = new Message(new string[] { user.Email }, "Reset password token", callback, null);
+            await _emailPasswordSender.SendEmailAsync(message);
+            return RedirectToAction(nameof(ForgotPasswordConfirmation));
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string token, string email)
+        {
+            var model = new ResetPasswordViewModel { Token = token, Email = email };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordModel)
+        {
+            if (!ModelState.IsValid)
+                return View(resetPasswordModel);
+
+            var user = await _userManager.FindByEmailAsync(resetPasswordModel.Email);
+            if (user == null)
+                RedirectToAction(nameof(ResetPasswordConfirmation));
+
+            var resetPassResult = await _userManager.ResetPasswordAsync(user, resetPasswordModel.Token, resetPasswordModel.Password);
+            if (!resetPassResult.Succeeded)
+            {
+                foreach (var error in resetPassResult.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+
+                return View();
+            }
+
+            return RedirectToAction(nameof(ResetPasswordConfirmation));
+        }
+
+        [HttpGet]
+        public IActionResult ResetPasswordConfirmation()
+        {
+            return View();
+        }
+
+        public IActionResult ForgotPasswordConfirmation()
+        {
+            return View();
+        }
+
+
+        //=====================================
+
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -148,6 +223,7 @@ namespace shoppingcartwebsite.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
         }
+
 
 
 
@@ -169,7 +245,7 @@ namespace shoppingcartwebsite.Controllers
                         if (isAdmin)
                         {
                             
-                            return RedirectToAction("EasyData", "Admin"); 
+                            return RedirectToAction("Diagrams", "Admin"); 
                         }
                         else
                         {

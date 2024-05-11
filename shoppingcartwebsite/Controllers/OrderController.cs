@@ -12,13 +12,11 @@ namespace shoppingcartwebsite.Controllers
     public class OrderController : Controller
     {
         private readonly DatabaseContext _context;
-        private readonly IHubContext<NotificationHub> _hubContext;
-        //private readonly IEmailService _emailService;
+       
         private readonly EmailSender _emailSender;
-        public OrderController(DatabaseContext context, EmailSender emailSender, IHubContext<NotificationHub> hubContext)
+        public OrderController(DatabaseContext context, EmailSender emailSender)
         {
             _context = context;
-            _hubContext = hubContext;
           
             _emailSender = emailSender;
         }
@@ -55,9 +53,9 @@ namespace shoppingcartwebsite.Controllers
             {
                
                 var sumWithDiscount = client.Basket
-     .Where(x => x.Product?.Discount > 0)
-     .Select(x => x.Amount * x.Product?.Price * (100 - x.Product?.Discount) / 100)
-     .Sum();
+               .Where(x => x.Product?.Discount > 0)
+               .Select(x => x.Amount * x.Product?.Price * (100 - x.Product?.Discount) / 100)
+               .Sum();
 
                 var sumWithoutDiscount = client.Basket
                    .Where(x => x.Product?.Discount == 0)

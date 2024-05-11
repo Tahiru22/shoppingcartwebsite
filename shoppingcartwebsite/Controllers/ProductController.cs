@@ -8,7 +8,7 @@ using shoppingcartwebsite.ViewModels;
 
 namespace shoppingcartwebsite.Controllers
 {
-    [Authorize(Roles = "Admin")]
+   
     public class ProductController : Controller
     {
         private readonly DatabaseContext _context;
@@ -21,26 +21,15 @@ namespace shoppingcartwebsite.Controllers
             
         }
 
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var products = await _context.Products.Include(p => p.Category).OrderByDescending(p => p.DateTime).ToListAsync();
             return View(products);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Create()
-        //{
-        //    // Fetch the list of categories from the database
-        //    var categories = await _context.Categorys.ToListAsync();
 
-        //    // Pass the list of categories to the view
-        //    ViewBag.Categories = new SelectList(categories, "Id", "Name");
-
-        //    return View();
-        //}
-
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -55,6 +44,7 @@ namespace shoppingcartwebsite.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(Product product, [Bind("CategoryId")] IFormFile image)
         {
@@ -64,13 +54,7 @@ namespace shoppingcartwebsite.Controllers
                 var imagePath = await SaveImageAsync(image);
                 product.PathToImage = imagePath;
 
-                // Load the category
-                //var category = await _context.Categorys.Include(c => c.Products).FirstOrDefaultAsync(c => c.Id == product.CategoryId);
-                //if (category != null)
-                //{
-                //    product.Category = category;
-                //}
-
+               
                 if (product.CategoryId == 0)
                 {
                     ModelState.AddModelError("CategoryId", "The Category field is required.");
@@ -119,7 +103,8 @@ namespace shoppingcartwebsite.Controllers
 			return View(viewModel);
 		}
 
-		public async Task<IActionResult> Edit(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(int id)
         {
             // Fetch the product to be edited from the database
             var product = await _context.Products.FindAsync(id);
@@ -128,15 +113,15 @@ namespace shoppingcartwebsite.Controllers
                 return NotFound(); // Product not found
             }
 
-            // Populate a list of categories to be used in dropdown list
+            
             var categories = await _context.Categorys.ToListAsync();
 
-            // Pass the product and categories to the view
+           
             ViewBag.Categories = new SelectList(categories, "Id", "Name", product.CategoryId);
             return View(product);
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(int id, Product product, IFormFile imageFile)
         {
@@ -186,10 +171,13 @@ namespace shoppingcartwebsite.Controllers
             return View(product);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete()
         {
             return View();
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {

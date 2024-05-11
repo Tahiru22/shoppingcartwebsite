@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using shoppingcartwebsite.Data;
 
@@ -11,9 +12,11 @@ using shoppingcartwebsite.Data;
 namespace shoppingcartwebsite.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240511105754_removesecondname")]
+    partial class removesecondname
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,7 +176,7 @@ namespace shoppingcartwebsite.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categorys", (string)null);
+                    b.ToTable("Categorys");
                 });
 
             modelBuilder.Entity("shoppingcartwebsite.Models.Client", b =>
@@ -194,7 +197,7 @@ namespace shoppingcartwebsite.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Clients", (string)null);
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("shoppingcartwebsite.Models.Order", b =>
@@ -221,7 +224,7 @@ namespace shoppingcartwebsite.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("shoppingcartwebsite.Models.Product", b =>
@@ -270,7 +273,7 @@ namespace shoppingcartwebsite.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("shoppingcartwebsite.Models.ProductBasket", b =>
@@ -304,7 +307,7 @@ namespace shoppingcartwebsite.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductBaskets", (string)null);
+                    b.ToTable("ProductBaskets");
                 });
 
             modelBuilder.Entity("shoppingcartwebsite.Models.PromoCode", b =>
@@ -324,7 +327,7 @@ namespace shoppingcartwebsite.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PromoCodes", (string)null);
+                    b.ToTable("PromoCodes");
                 });
 
             modelBuilder.Entity("shoppingcartwebsite.Models.ShopPoint", b =>
@@ -341,7 +344,7 @@ namespace shoppingcartwebsite.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ShopPoints", (string)null);
+                    b.ToTable("ShopPoints");
                 });
 
             modelBuilder.Entity("shoppingcartwebsite.Models.User", b =>
