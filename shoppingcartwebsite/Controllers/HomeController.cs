@@ -36,7 +36,7 @@ namespace shoppingcartwebsite.Controllers
 
             var categories = await _context.Categorys.OrderByDescending(p => p.DateTime).ToListAsync();
             //var products = await _context.Products.ToListAsync();
-            var products = await _context.Products.Where(x => x.Discount > 0).OrderByDescending(p => p.DateTime).ToListAsync();
+            var products = await _context.Products.OrderByDescending(p => p.DateTime).ToListAsync();
 
             var model = new IndexViewModel
             {
@@ -95,7 +95,7 @@ namespace shoppingcartwebsite.Controllers
             }
             var model = new ProductsViewModel
             {
-                Title = title ?? "Товары",
+                Title = title ?? "No catgory",
                 Client = client,
                 Products = list ?? new List<Product>()
             };
@@ -123,7 +123,7 @@ namespace shoppingcartwebsite.Controllers
 
             var model = new ProductsViewModel
             {
-                Title = "Результаты поиска",
+                Title = "Your search results",
                 Client = client,
                 Products = list
             };

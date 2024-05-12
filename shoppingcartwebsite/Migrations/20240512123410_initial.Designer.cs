@@ -12,8 +12,8 @@ using shoppingcartwebsite.Data;
 namespace shoppingcartwebsite.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240509230446_addguid")]
-    partial class addguid
+    [Migration("20240512123410_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -397,9 +397,6 @@ namespace shoppingcartwebsite.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("SecondName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");

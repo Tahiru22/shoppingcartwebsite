@@ -68,8 +68,8 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
-        var dataUpdateService = services.GetRequiredService<DataUpdateService>();
-        dataUpdateService.UpData();
+        //var dataUpdateService = services.GetRequiredService<DataUpdateService>();
+        //dataUpdateService.UpData();
         var context = services.GetRequiredService<DatabaseContext>();
         var userManager = services.GetRequiredService<UserManager<User>>();
         var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();

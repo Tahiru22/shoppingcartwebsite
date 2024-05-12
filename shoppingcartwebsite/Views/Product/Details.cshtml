@@ -71,30 +71,29 @@
 
 				@foreach (var item in items)
 				{
-			<div class="col-md-5 col-md-push-2">
-				<div id="product-main-img">
-					<div class="product-preview">
-						<img src="@item.PathToImage" alt="">
-					</div>
+					<div class="col-md-5 col-md-push-2">
+						<div id="product-main-img">
+							<div class="product-preview">
+								<img src="@item.PathToImage" alt="">
+							</div>
 
-					
-				</div>
-			</div>
+
+						</div>
+					</div>
 				}
 			}
 			<!-- /Product main img -->
-		
 			<!-- Product details -->
-				@foreach (var items in groupedNewProducts)
-				{
+			@foreach (var items in groupedNewProducts)
+			{
 
 				@foreach (var item in items)
 				{
-			<div class="col-md-5">
-				<div class="product-details">
-					<h2 class="product-name">@item.Name</h2>
-					
-					<div>
+					<div class="col-md-5">
+						<div class="product-details">
+							<h2 class="product-name">@item.Name</h2>
+
+							<div>
 								@{
 									if (item.Discount == 0)
 									{
@@ -111,34 +110,43 @@
 
 									}
 								}
-						<span class="product-available">In Stock</span>
-					</div>
-					<p>@item.Description</p>
+								<span class="product-available">In Stock</span>
+							</div>
+							<p>@item.Description</p>
 
-					
 
-					<div class="add-to-cart">
-						
-					<a asp-area="" asp-route-id="@item.Id" asp-controller="Basket" asp-action="AddProductInBasket">
+
+							<div class="add-to-cart">
+
+								<a asp-area="" asp-route-id="@item.Id" asp-controller="Basket" asp-action="AddProductInBasket">
 									<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-					</a>
+								</a>
+							</div>
+
+							<ul class="product-btns">
+								<li>
+									<a id="link-favorite-@item.Id" href="javascript:void(0)" data-product-id="@item.Id" class="btn btn-light btn-favorite">
+										♥
+									</a>
+								</li>
+
+							</ul>
+
+							<ul class="product-links">
+								<li>Category: @item.Category.Name</li>
+
+							</ul>
+
+
+
+						</div>
 					</div>
-
-					<ul class="product-btns">
-					<li><a id="link-favorite-@item.Id" href="javascript:void(0)" data-product-id="@item.Id"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
-						
-					</ul>
-
-					<ul class="product-links">
-						<li>Category: @item.Category.Name</li>
-						
-					</ul>
-
-				
-
-				</div>
-			</div>
-			  }
+				}
 			}
 			<!-- /Product details -->
-			
+		</div>
+	</div>
+</div>
+
+<br />
+<br />

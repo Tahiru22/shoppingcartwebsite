@@ -218,7 +218,11 @@
 																}
 																else
 																{
-																	<button class="add-to-wishlist" id="link-favorite-@item.Id" href="javascript:void(0)" data-product-id="@item.Id"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+																	<a asp-action="Details" class="quick-view" asp-controller="Product" asp-route-id="@item.Id"><i class="fa fa-eye"></i></a>
+							
+																	<a id="link-favorite-@item.Id" href="javascript:void(0)" data-product-id="@item.Id" class="btn btn-light btn-favorite">
+																		♥
+																	</a>
 																}
 															}
 														</div>
@@ -265,7 +269,8 @@
 </div>
 <!-- /SECTION -->
 
-		
+<br />
+<br />
 	
 
 		
