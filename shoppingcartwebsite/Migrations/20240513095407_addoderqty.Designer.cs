@@ -12,8 +12,8 @@ using shoppingcartwebsite.Data;
 namespace shoppingcartwebsite.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240512123410_initial")]
-    partial class initial
+    [Migration("20240513095407_addoderqty")]
+    partial class addoderqty
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -219,6 +219,9 @@ namespace shoppingcartwebsite.Migrations
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
+
+                    b.Property<int?>("Quantity")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

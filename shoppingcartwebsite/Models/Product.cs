@@ -7,6 +7,8 @@ namespace shoppingcartwebsite.Models
     {
         public string Name { get; set; }
         public string Description { get; set; }
+
+        [DisplayName("Quantity")]
         public int Amount { get; set; }
         public double Price { get; set; }
 
@@ -17,5 +19,7 @@ namespace shoppingcartwebsite.Models
         [DisplayName("Category")]
         public int CategoryId { get; set; } 
         public Category? Category { get; set; }
+
+        
     }
 }

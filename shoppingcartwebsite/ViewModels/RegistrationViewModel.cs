@@ -22,7 +22,7 @@ namespace shoppingcartwebsite.ViewModels
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Password entered incorrectly")]
+        [Compare("Password", ErrorMessage = "Password did not match")]
         public string ConfirmPassword { get; set; }
     }
 }

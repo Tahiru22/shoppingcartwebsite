@@ -69,6 +69,7 @@
                                 Client: @client.User?.FirstName @client.User?.LastName
                             </button>
                         </h2>
+                        
                         <div id="collapse@(client.Id)" class="accordion-collapse collapse" aria-labelledby="heading@(client.Id)" data-bs-parent="#ordersAccordion">
                             <div class="accordion-body">
                                 @if (client.Orders.Any())
@@ -79,6 +80,7 @@
                                             <h4>Order ID: @order.Id</h4>
                                             <h4>Order Status: @order.OrderStatus</h4>
                                             <h4>Order Amount: @order.Price</h4>
+                                             <h4>Order Total Qty: @order.Quantity</h4>
                                             <h4>Date & Time: @order.DateTime.ToString("yyyy-MM-dd HH:mm")</h4>
                                             <form asp-action="UpdateOrderStatus" method="post">
                                                 <input type="hidden" asp-for="@order.Id" name="OrderId" />
@@ -96,8 +98,8 @@
                                                         <th>Product Name</th>
                                                         <th>Description</th>
                                                        
-                                                        <th>Discount</th>
-                                                        <th>Quantity</th>
+                                                        <th>Discount(%)</th>
+                                                       <th>Qty</th>
                                                         <th>Price</th>
                                                         <th>Image</th>
                                                     </tr>
@@ -108,9 +110,11 @@
                                                         <tr>
                                                             <td>@productBasketItem.Product?.Name</td>
                                                             <td>@productBasketItem.Product.Description</td>
-                                                            
+                                                           
                                                             <td>@productBasketItem.Product.Discount</td>
-                                                            <td>@productBasketItem.Product.NumberSales</td>
+                                                            
+                                                            
+                                                            <td>@productBasketItem.Amount</td>
                                                             <td>@productBasketItem.Product.Price</td>
                                                             <td>
                                                                 @if (!string.IsNullOrEmpty(productBasketItem.Product?.PathToImage))

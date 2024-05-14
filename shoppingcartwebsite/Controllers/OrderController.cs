@@ -61,14 +61,15 @@ namespace shoppingcartwebsite.Controllers
                    .Where(x => x.Product?.Discount == 0)
                    .Select(x => x.Amount * x.Product?.Price)
                    .Sum();
-
+                var getorderqty = client.Basket
+                    .Select(x => x.Amount).Sum();
                 var order = new Order
                 {
                     Products = new List<ProductBasket>(),
                     DateTime = DateTime.Now,
                     OrderStatus = OrderStatus.Collecting,
-                    Price  = sumWithDiscount.GetValueOrDefault(0.0) + sumWithoutDiscount.GetValueOrDefault(0.0)
-
+                    Price  = sumWithDiscount.GetValueOrDefault(0.0) + sumWithoutDiscount.GetValueOrDefault(0.0),
+                    Quantity = getorderqty
                     //   Price = sumWithDiscount.HasValue ? (sumWithDiscount.Value == 0 ? sumWithoutDiscount.GetValueOrDefault(0.0) : sumWithDiscount.Value + sumWithoutDiscount.GetValueOrDefault(0.0)) : sumWithoutDiscount.GetValueOrDefault(0.0)
                 };
 

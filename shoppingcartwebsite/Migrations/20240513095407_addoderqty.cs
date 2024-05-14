@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace shoppingcartwebsite.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class addoderqty : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -228,6 +228,7 @@ namespace shoppingcartwebsite.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderStatus = table.Column<int>(type: "int", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: true),
                     Price = table.Column<double>(type: "float", nullable: false),
                     ClientId = table.Column<int>(type: "int", nullable: true)
                 },

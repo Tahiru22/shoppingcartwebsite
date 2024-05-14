@@ -36,69 +36,70 @@ namespace shoppingcartwebsite.Controllers
 
        
 
-        [HttpPost]
-        public async Task<IActionResult> UnlockUser(string userId)
-        {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user != null)
-            {
-                var unlockResult = await _userManager.SetLockoutEnabledAsync(user, false);
-                if (unlockResult.Succeeded)
-                {
-                    // Optionally, clear the lockout end date
-                    await _userManager.SetLockoutEndDateAsync(user, DateTime.MinValue);
-                    return RedirectToAction("GetAllUsers");
-                }
-            }
-            return NotFound();
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> UnlockUser(string userId)
+        //{
+        //    var user = await _userManager.FindByIdAsync(userId);
+        //    if (user != null)
+        //    {
+        //        var unlockResult = await _userManager.SetLockoutEnabledAsync(user, false);
+        //        if (unlockResult.Succeeded)
+        //        {
+                    
+        //            await _userManager.SetLockoutEndDateAsync(user, DateTime.MinValue);
+        //            return RedirectToAction("GetAllUsers");
+        //        }
+        //    }
+        //    return NotFound();
+        //}
 
-        [HttpPost]
-        public async Task<IActionResult> BlockUser(string userId)
-        {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound(); // User not found
-            }
+        //[HttpPost]
+        //public async Task<IActionResult> BlockUser(string userId)
+        //{
+        //    var user = await _userManager.FindByIdAsync(userId);
+        //    if (user == null)
+        //    {
+        //        return NotFound(); 
+        //    }
 
-            //user.IsBlocked = true; // Assuming you have a property like IsBlocked in your User entity
-            var result = await _userManager.UpdateAsync(user);
-            if (result.Succeeded)
-            {
-                // User blocked successfully
-                return RedirectToAction("Index"); // Redirect to a suitable page
-            }
-            else
-            {
-                // Handle errors
-                return View("Error"); // Show error view
-            }
-        }
-
-        public IActionResult DeleteUser() => View();
-
-        [HttpPost]
-        public async Task<IActionResult> DeleteUser(string userId)
-        {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound(); 
-            }
-
-            var result = await _userManager.DeleteAsync(user);
-            if (result.Succeeded)
-            {
+           
+        //    var result = await _userManager.UpdateAsync(user);
+        //    if (result.Succeeded)
+        //    {
                 
-                return RedirectToAction("GetAllUsers"); 
-            }
-            else
-            {
+        //        return RedirectToAction("Index"); 
+        //    }
+        //    else
+        //    {
                 
-                return View("Error"); 
-            }
-        }
+        //        return View("Error"); 
+        //    }
+        //}
+
+        //public IActionResult DeleteUser() => View();
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> DeleteUser(string userId)
+        //{
+        //    var user = await _userManager.FindByIdAsync(userId);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var result = await _userManager.DeleteAsync(user);
+        //    if (result.Succeeded)
+        //    {
+
+        //        return RedirectToAction("GetAllUsers");
+        //    }
+        //    else
+        //    {
+
+        //        return View("Error");
+        //    }
+        //}
 
 
 
@@ -106,7 +107,9 @@ namespace shoppingcartwebsite.Controllers
         {
             var clients = await _context.Clients
                 .Include(x => x.User)
+                 
                 .Include(x => x.Orders)
+               
                     .ThenInclude(x => x.Products)
                         .ThenInclude(x => x.Product)
                 .ToListAsync();

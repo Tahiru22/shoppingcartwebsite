@@ -1,0 +1,22 @@
+    //"DefaultConnection": "Data Source=SQL8010.site4now.net;Initial Catalog=db_aa8a23_shoppingcartdb;User Id=db_aa8a23_shoppingcartdb_admin;Password=T@hiru2021"
+    "DefaultConnection": "Server=db3887.public.databaseasp.net; Database=db3887; User Id=db3887; Password=Ny5!2Q=xR%g7; Encrypt=False; MultipleActiveResultSets=True;"
+
+//"DefaultConnection": "Server=tcp:shoppingcartwebserver.database.windows.net,1433;Initial Catalog=shoppingcartdb;Persist Security Info=False;User ID=tahiru;Password=T@hiru2021;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+
+
+
+ "EmailConfiguration": {
+    "From": "ktahiru181@gmail.com",
+    "SmtpServer": "smtp.gmail.com",
+    "Port": 465,
+    "Username": "ktahiru181@gmail.com",
+    "Password": "scgufjmhwhvqpvrr"
+  },
+
+
+  "SmtpSettings": {
+    "Host": "smtp.gmail.com",
+    "Port": 587,
+    "Username": "ktahiru181@gmail.com",
+    "Password": "scgufjmhwhvqpvrr",
+    "EnableSsl": true

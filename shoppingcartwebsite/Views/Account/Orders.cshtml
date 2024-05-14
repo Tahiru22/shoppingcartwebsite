@@ -17,20 +17,20 @@
                     <div class="card" style="border-radius: 25px; margin-top: 30px">
                         <div class="row" style="padding-top: 30px; padding-left: 30px;padding-right: 30px">
                             <div class="col-6">
-                                <h3 class="personal-data__data-title">
+                                <h5 class="personal-data__data-title">
                                     Date: @order.DateTime
-                                </h3>
-                                <h3 class="personal-data__data-title">
+                                </h5>
+                                <h5 class="personal-data__data-title">
                                   Status:  @order.OrderStatus
-                                </h3>
-
+                                </h5>
+                               
                             </div>
 
                             <div class="col">
                                 <div class="right">
-                                    <h3 class="personal-data__data-title">
-                                        Ghc @order.Price .00
-                                    </h3>
+                                    <h5 class="personal-data__data-title">
+                                        Ghc @order.Price,00
+                                    </h5>
                                 </div>
                             </div>
                         </div>
@@ -44,8 +44,9 @@
 
                                     <h5 class="card-title">@item.Product?.Name</h5>
                                     <p class="card-text">@item.Product?.Description</p>
-
+                                    
                                 }
+                               
                             }
                         </div>
                     </div>
